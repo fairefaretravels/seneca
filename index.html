@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Seneca.work • UGC & Broadcast Studio</title>
-  <meta name="description" content="Seneca.work – UGC creator portfolio and live broadcast studio featuring authentic, beginner-friendly, pastel-tech content." />
+  <meta name="description" content="Seneca.work – UGC creator portfolio and live broadcast studio featuring authentic, beginner-friendly, tech content." />
 
   <style>
     :root {
@@ -684,7 +684,6 @@
       background: #fff;
     }
 
-    /* LEFT SIDE IMAGE */
     .broadcast-image {
       background-size: cover;
       background-position: center;
@@ -692,7 +691,6 @@
       border-right: 3px solid #000;
     }
 
-    /* RIGHT SIDE CONTENT */
     .broadcast-content {
       background: #ffffff;
       padding: 2.5rem 2rem;
@@ -736,10 +734,92 @@
 
     .broadcast-iframe {
       width: 100%;
-      height: 50vh;
+      height: 75vh;  /* Taller video box */
       border: 3px solid #000;
       border-radius: 14px;
       background: #000;
+    }
+
+    /* PRICING / RATE CARD */
+
+    .pricing-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 1.25rem;
+    }
+
+    .pricing-card {
+      background: rgba(255, 255, 255, 0.96);
+      border-radius: var(--radius-md);
+      padding: 1.3rem;
+      box-shadow: var(--shadow-soft);
+      font-size: 0.9rem;
+      position: relative;
+      border: 1px solid rgba(148, 163, 184, 0.4);
+    }
+
+    .pricing-card h3 {
+      margin-bottom: 0.4rem;
+    }
+
+    .price-row {
+      display: flex;
+      align-items: baseline;
+      gap: 0.4rem;
+      margin-bottom: 0.6rem;
+    }
+
+    .price {
+      font-size: 1.4rem;
+      font-weight: 800;
+    }
+
+    .price-note {
+      font-size: 0.8rem;
+      color: var(--text-soft);
+    }
+
+    .pricing-card ul {
+      list-style: none;
+      padding-left: 0;
+      margin-top: 0.5rem;
+    }
+
+    .pricing-card li {
+      position: relative;
+      padding-left: 1rem;
+      margin-bottom: 0.3rem;
+      font-size: 0.82rem;
+      color: var(--text-soft);
+    }
+
+    .pricing-card li::before {
+      content: "•";
+      position: absolute;
+      left: 0;
+      top: 0;
+      color: var(--secondary);
+      font-weight: 900;
+    }
+
+    .pricing-featured {
+      border: 1.5px solid var(--secondary);
+      box-shadow: 0 18px 40px rgba(111, 139, 255, 0.25);
+      transform: translateY(-4px);
+    }
+
+    .pricing-featured .badge {
+      position: absolute;
+      top: 0.9rem;
+      right: 1rem;
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      padding: 0.18rem 0.55rem;
+      border-radius: var(--radius-pill);
+      background: rgba(111, 139, 255, 0.1);
+      color: #3f5afc;
+      font-weight: 700;
     }
 
     /* Responsive */
@@ -760,7 +840,8 @@
       .cards-grid,
       .portfolio-grid,
       .testimonials,
-      .contact-grid {
+      .contact-grid,
+      .pricing-grid {
         grid-template-columns: minmax(0, 1fr);
       }
 
@@ -824,12 +905,13 @@
           <ul>
             <li><a href="#services">Services</a></li>
             <li><a href="#portfolio">Portfolio</a></li>
+            <li><a href="#rates">Rates</a></li>
             <li><a href="#about">About</a></li>
             <li><a href="#contact">Contact</a></li>
           </ul>
         </nav>
         <div class="nav-cta">
-          <a href="#contact" class="btn-outline">Download Rate Card</a>
+          <a href="#rates" class="btn-outline">Download Rate Card</a>
           <a href="#contact" class="btn">Work With Me ↗</a>
         </div>
       </div>
@@ -839,7 +921,7 @@
     <section class="broadcast-bar">
       <!-- LEFT SIDE IMAGE -->
       <div class="broadcast-image"
-           style="background-image: url('Whisk_66da77beb73bb2aaddc48948e22a79eadr.jpeg');">
+           style="background-image: url('Image_fx (6).png');">
       </div>
 
       <!-- RIGHT SIDE CONTENT -->
@@ -1086,7 +1168,7 @@
                 </div>
                 <div class="metric">
                   <div class="metric-number">2</div>
-                  <div class="metric-label">Rounds of revisions included</div>
+                  <div class="metric-label">Rounds of light revisions included</div>
                 </div>
                 <div class="metric">
                   <div class="metric-number">UGC-ready</div>
@@ -1103,6 +1185,70 @@
               </p>
             </div>
           </div>
+        </div>
+      </section>
+
+      <!-- RATE CARD -->
+      <section id="rates">
+        <div class="container">
+          <div class="section-header">
+            <div class="kicker">Rates</div>
+            <h2>Simple, beginner-friendly pricing</h2>
+            <p>
+              These are starting points for typical UGC packages. Final pricing depends on usage, volume, and timelines,
+              but this gives you a clear idea before we talk.
+            </p>
+          </div>
+
+          <div class="pricing-grid">
+            <div class="pricing-card">
+              <h3>Single UGC Video</h3>
+              <div class="price-row">
+                <span class="price">$XXX</span>
+                <span class="price-note">per video</span>
+              </div>
+              <ul>
+                <li>15–30 second vertical video</li>
+                <li>Simple hook → problem → solution</li>
+                <li>1 round of light revisions</li>
+                <li>Delivered ready for TikTok / Reels / Shorts</li>
+              </ul>
+            </div>
+
+            <div class="pricing-card pricing-featured">
+              <div class="badge">Most popular</div>
+              <h3>3-Video Package</h3>
+              <div class="price-row">
+                <span class="price">$XXX</span>
+                <span class="price-note">for 3 videos</span>
+              </div>
+              <ul>
+                <li>3 custom UGC concepts (hooks, POV, or testimonials)</li>
+                <li>Mix of talking-head + b-roll possible</li>
+                <li>2 rounds of light revisions</li>
+                <li>Great for testing multiple hooks & angles</li>
+              </ul>
+            </div>
+
+            <div class="pricing-card">
+              <h3>UGC + Raw B-Roll</h3>
+              <div class="price-row">
+                <span class="price">$XXX</span>
+                <span class="price-note">bundle</span>
+              </div>
+              <ul>
+                <li>1–2 finished UGC videos</li>
+                <li>Extra raw b-roll clips for your editor</li>
+                <li>Clear labeling of clips and takes</li>
+                <li>Perfect for brands with in-house editing</li>
+              </ul>
+            </div>
+          </div>
+
+          <p style="text-align:center; font-size:0.8rem; color:#555; margin-top:1.2rem;">
+            *All pricing is flexible based on brief, licensing, and timeline. Use the form below to tell me what you
+            need and I’ll send a custom quote and a downloadable PDF rate card.
+          </p>
         </div>
       </section>
 
