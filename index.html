@@ -1,1358 +1,824 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Seneca.work • UGC & Broadcast Studio</title>
-  <meta name="description" content="Seneca.work – UGC creator portfolio and live broadcast studio featuring authentic, beginner-friendly, tech content." />
-
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="description" content="Seneca Mack — UGC Creator & Broadcaster. Live reviews of real products and real services. A face consumers can trust. The voice that brands need."/>
+  <title>Seneca Mack · UGC Creator & Broadcaster</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
   <style>
     :root {
-      --bg-gradient: linear-gradient(135deg, #ffe3f3, #e0f0ff, #e9ffe8);
-      --primary: #ff6fb5;   /* pastel pink */
-      --secondary: #6f8bff; /* soft blue */
-      --accent: #7dd4c6;    /* mint */
-      --text-main: #222222;
-      --text-soft: #555555;
-      --card-bg: #ffffff;
-      --shadow-soft: 0 18px 40px rgba(0, 0, 0, 0.08);
-      --radius-lg: 22px;
-      --radius-md: 16px;
-      --radius-pill: 999px;
-      --transition: 0.25s ease;
+      --peach:        #FDEBD0;
+      --peach-dark:   #F5CBA7;
+      --peach-mid:    #FAD7A0;
+      --forest:       #2D6A4F;
+      --forest-deep:  #1B4332;
+      --forest-light: #40916C;
+      --mint:         #B7E4C7;
+      --mint-light:   #D8F3DC;
+      --mint-border:  #74C69D;
+      --cream:        #FEF9F3;
     }
-
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
 
     body {
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", sans-serif;
-      background-image: var(--bg-gradient);
-      background-attachment: fixed;
-      color: var(--text-main);
-      line-height: 1.6;
+      font-family: 'DM Sans', system-ui, sans-serif;
+      background: var(--peach);
+      color: var(--forest-deep);
+      min-height: 100vh;
+      overflow-x: hidden;
     }
 
-    a {
-      text-decoration: none;
-      color: inherit;
+    /* Subtle texture overlay */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: radial-gradient(circle at 20% 20%, rgba(116,198,157,0.08) 0%, transparent 50%),
+                        radial-gradient(circle at 80% 80%, rgba(45,106,79,0.06) 0%, transparent 50%);
+      pointer-events: none;
+      z-index: 0;
     }
-
-    img {
-      max-width: 100%;
-      display: block;
-    }
-
-    /* Layout */
 
     .page {
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-    }
-
-    .container {
-      width: 100%;
-      max-width: 1120px;
+      max-width: 860px;
       margin: 0 auto;
-      padding: 0 1.25rem;
+      padding: 3rem 1.5rem 4rem;
+      position: relative;
+      z-index: 1;
     }
 
-    header {
-      position: sticky;
-      top: 0;
-      z-index: 50;
-      backdrop-filter: blur(16px);
-      background: rgba(255, 255, 255, 0.9);
-      border-bottom: 1px solid rgba(255, 255, 255, 0.8);
-    }
-
-    .nav {
+    /* ── HEADER ── */
+    .site-header {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: 0.9rem 0;
-      gap: 1rem;
+      margin-bottom: 3.5rem;
+      padding-bottom: 1.25rem;
+      border-bottom: 1.5px solid var(--mint-border);
     }
-
-    .brand {
-      display: flex;
-      align-items: center;
-      gap: 0.6rem;
+    .site-name {
+      font-family: 'Playfair Display', serif;
+      font-size: 1rem;
       font-weight: 700;
-      letter-spacing: 0.05em;
+      letter-spacing: 0.04em;
+      color: var(--forest);
+    }
+    .site-tag {
+      font-size: 0.7rem;
+      letter-spacing: 0.2em;
       text-transform: uppercase;
-      font-size: 0.95rem;
+      color: var(--forest-light);
+      font-weight: 500;
     }
 
-    .brand-badge {
-      width: 32px;
-      height: 32px;
-      border-radius: 50%;
-      background: radial-gradient(circle at 20% 0%, #ffffff, #ffb6e1, #9ec5ff);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-weight: 800;
-      font-size: 0.9rem;
-      box-shadow: 0 0 22px rgba(0, 0, 0, 0.18);
-    }
-
-    nav ul {
-      list-style: none;
-      display: flex;
-      gap: 1.25rem;
-      font-size: 0.9rem;
-    }
-
-    nav a {
-      position: relative;
-      padding-bottom: 0.15rem;
-    }
-
-    nav a::after {
-      content: "";
-      position: absolute;
-      left: 0;
-      bottom: 0;
-      width: 0;
-      height: 2px;
-      border-radius: 999px;
-      background: linear-gradient(90deg, var(--primary), var(--secondary));
-      transition: width var(--transition);
-    }
-
-    nav a:hover::after {
-      width: 100%;
-    }
-
-    .nav-cta {
-      display: flex;
-      gap: 0.75rem;
-      align-items: center;
-    }
-
-    .btn,
-    .btn-outline {
-      border-radius: var(--radius-pill);
-      padding: 0.55rem 1.3rem;
-      font-size: 0.9rem;
-      font-weight: 600;
-      border: none;
-      cursor: pointer;
-      display: inline-flex;
-      align-items: center;
-      gap: 0.45rem;
-      transition: transform var(--transition), box-shadow var(--transition), background var(--transition), color var(--transition), border-color var(--transition);
-      white-space: nowrap;
-    }
-
-    .btn {
-      background: linear-gradient(135deg, var(--primary), var(--secondary));
-      color: #ffffff;
-      box-shadow: 0 10px 22px rgba(111, 139, 255, 0.4);
-    }
-
-    .btn:hover {
-      transform: translateY(-1px);
-      box-shadow: 0 14px 30px rgba(111, 139, 255, 0.5);
-    }
-
-    .btn-outline {
-      border: 1px solid rgba(0, 0, 0, 0.1);
-      background: rgba(255, 255, 255, 0.9);
-      color: var(--text-main);
-    }
-
-    .btn-outline:hover {
-      border-color: var(--secondary);
-      background: rgba(255, 255, 255, 1);
-      transform: translateY(-1px);
-      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.08);
-    }
-
-    main {
-      flex: 1;
-      padding-bottom: 3rem;
-    }
-
-    section {
-      padding: 3.25rem 0;
-    }
-
-    .section-header {
-      text-align: center;
-      max-width: 620px;
-      margin: 0 auto 2.25rem;
-    }
-
-    .kicker {
-      font-size: 0.8rem;
-      text-transform: uppercase;
-      letter-spacing: 0.16em;
-      color: var(--secondary);
-      font-weight: 700;
-      margin-bottom: 0.4rem;
-    }
-
-    h1, h2, h3 {
-      letter-spacing: -0.03em;
-    }
-
-    h1 {
-      font-size: clamp(2.3rem, 4vw, 3rem);
-      line-height: 1.1;
-      margin-bottom: 0.7rem;
-    }
-
-    h2 {
-      font-size: clamp(1.8rem, 3vw, 2.2rem);
-      margin-bottom: 0.4rem;
-    }
-
-    h3 {
-      font-size: 1.1rem;
-      margin-bottom: 0.2rem;
-    }
-
-    .section-header p {
-      color: var(--text-soft);
-      font-size: 0.98rem;
-    }
-
-    /* HERO */
-
-    .hero {
-      padding-top: 3rem;
-    }
-
-    .hero-grid {
+    /* ── BIO SECTION ── */
+    .bio {
       display: grid;
-      grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
+      grid-template-columns: 1fr 2fr;
       gap: 2.5rem;
       align-items: center;
-    }
-
-    .hero-tagline {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.5rem;
-      padding: 0.25rem 0.7rem;
-      border-radius: var(--radius-pill);
-      background: rgba(255, 255, 255, 0.9);
-      border: 1px solid rgba(255, 255, 255, 0.7);
-      font-size: 0.8rem;
-      margin-bottom: 1rem;
-    }
-
-    .hero-tag-dot {
-      width: 8px;
-      height: 8px;
-      border-radius: 999px;
-      background: #4ade80;
-      box-shadow: 0 0 12px rgba(74, 222, 128, 0.9);
-    }
-
-    .hero p {
-      color: var(--text-soft);
-      font-size: 1rem;
-      max-width: 500px;
-    }
-
-    .hero-actions {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.8rem;
-      margin: 1.7rem 0 1.2rem;
-    }
-
-    .hero-meta {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.8rem;
-      font-size: 0.8rem;
-      color: var(--text-soft);
-    }
-
-    .hero-meta-pill {
-      padding: 0.35rem 0.65rem;
-      border-radius: var(--radius-pill);
-      background: rgba(255, 255, 255, 0.85);
-      border: 1px solid rgba(0, 0, 0, 0.04);
-    }
-
-    .hero-card {
-      background: rgba(255, 255, 255, 0.96);
-      box-shadow: var(--shadow-soft);
-      border-radius: var(--radius-lg);
-      padding: 1.4rem;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .hero-badge {
-      position: absolute;
-      top: 1.1rem;
-      right: 1.2rem;
-      padding: 0.4rem 0.8rem;
-      border-radius: var(--radius-pill);
-      background: rgba(111, 139, 255, 0.12);
-      font-size: 0.75rem;
-      font-weight: 600;
-      color: #3f5afc;
-    }
-
-    .hero-avatar-row {
-      display: flex;
-      align-items: center;
-      gap: 0.75rem;
-      margin-bottom: 0.8rem;
-    }
-
-    .hero-avatar {
-      width: 54px;
-      height: 54px;
-      border-radius: 50%;
-      background: radial-gradient(circle at 20% 0%, #fff, #ffb6e1, #9ec5ff);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-weight: 800;
-      font-size: 1.1rem;
-      color: #222222;
-      border: 2px solid #ffffff;
-      box-shadow: 0 10px 24px rgba(0, 0, 0, 0.15);
-    }
-
-    .hero-avatar-text h3 {
-      margin-bottom: 0.1rem;
-    }
-
-    .hero-avatar-text span {
-      font-size: 0.8rem;
-      color: var(--text-soft);
-    }
-
-    .hero-video-frame {
-      margin-top: 0.9rem;
-      border-radius: var(--radius-md);
-      padding: 0.65rem;
-      background: linear-gradient(135deg, rgba(255, 182, 225, 0.7), rgba(158, 197, 255, 0.7));
-    }
-
-    .hero-video-inner {
-      border-radius: calc(var(--radius-md) - 4px);
-      background: #020617;
-      aspect-ratio: 16 / 9;
-      position: relative;
-      overflow: hidden;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: #e5e7eb;
-      font-size: 0.85rem;
-    }
-
-    .play-circle {
-      width: 58px;
-      height: 58px;
-      border-radius: 999px;
-      border: 2px solid rgba(248, 250, 252, 0.9);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      backdrop-filter: blur(8px);
-      background: rgba(15, 23, 42, 0.4);
-    }
-
-    .play-triangle {
-      width: 0;
-      height: 0;
-      border-top: 8px solid transparent;
-      border-bottom: 8px solid transparent;
-      border-left: 14px solid #ffffff;
-      margin-left: 2px;
-    }
-
-    .hero-video-label {
-      position: absolute;
-      bottom: 0.65rem;
-      left: 0.75rem;
-      padding: 0.2rem 0.55rem;
-      border-radius: var(--radius-pill);
-      background: rgba(15, 23, 42, 0.82);
-      font-size: 0.72rem;
-    }
-
-    /* SERVICES */
-
-    .cards-grid {
-      display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 1.25rem;
-    }
-
-    .card {
-      background: rgba(255, 255, 255, 0.96);
-      border-radius: var(--radius-md);
-      padding: 1.2rem;
-      box-shadow: var(--shadow-soft);
-      font-size: 0.9rem;
-    }
-
-    .card-pill {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.4rem;
-      padding: 0.24rem 0.6rem;
-      border-radius: var(--radius-pill);
-      font-size: 0.72rem;
-      margin-bottom: 0.4rem;
-      background: rgba(111, 139, 255, 0.05);
-      color: #3945c5;
-      font-weight: 600;
-    }
-
-    .card p {
-      color: var(--text-soft);
-      margin-top: 0.3rem;
-    }
-
-    .tag-list {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.3rem;
-      margin-top: 0.6rem;
-    }
-
-    .tag {
-      font-size: 0.72rem;
-      padding: 0.2rem 0.55rem;
-      border-radius: var(--radius-pill);
-      background: rgba(15, 23, 42, 0.03);
-    }
-
-    /* PORTFOLIO */
-
-    .portfolio-grid {
-      display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 1rem;
-    }
-
-    .portfolio-card {
-      background: rgba(255, 255, 255, 0.96);
-      border-radius: var(--radius-md);
-      padding: 0.8rem;
-      box-shadow: var(--shadow-soft);
-      font-size: 0.85rem;
-    }
-
-    .portfolio-thumb {
+      margin-bottom: 3.5rem;
+      padding: 2.5rem;
+      background: var(--cream);
+      border: 1.5px solid var(--mint-border);
       border-radius: 12px;
-      overflow: hidden;
-      background: radial-gradient(circle at 10% 0%, #0b1120, #020617);
-      aspect-ratio: 9 / 16;
-      position: relative;
+    }
+    .bio-left { display: flex; flex-direction: column; gap: 1rem; align-items: flex-start; }
+    .bio-initials {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      background: var(--forest);
       display: flex;
       align-items: center;
       justify-content: center;
-      color: #e5e7eb;
+      font-family: 'Playfair Display', serif;
+      font-size: 1.6rem;
+      font-weight: 700;
+      color: var(--peach);
+      letter-spacing: 0.04em;
+      flex-shrink: 0;
     }
-
-    .portfolio-pill {
-      position: absolute;
-      top: 0.6rem;
-      left: 0.6rem;
-      padding: 0.15rem 0.5rem;
-      border-radius: var(--radius-pill);
+    .bio-name {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(1.6rem, 4vw, 2.4rem);
+      font-weight: 900;
+      line-height: 1;
+      color: var(--forest-deep);
+    }
+    .bio-title {
       font-size: 0.7rem;
-      background: rgba(15, 23, 42, 0.8);
-    }
-
-    .portfolio-title {
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--forest-light);
       font-weight: 600;
-      margin-top: 0.55rem;
+    }
+    .bio-right { display: flex; flex-direction: column; gap: 1rem; }
+    .bio-tagline {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.15rem;
+      font-style: italic;
+      line-height: 1.6;
+      color: var(--forest);
+      border-left: 3px solid var(--mint-border);
+      padding-left: 1rem;
+    }
+    .bio-desc {
+      font-size: 0.9rem;
+      line-height: 1.75;
+      color: var(--forest-deep);
+      font-weight: 300;
+    }
+    .bio-pills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+      margin-top: 0.25rem;
+    }
+    .pill {
+      background: var(--mint-light);
+      border: 1px solid var(--mint-border);
+      color: var(--forest);
+      font-size: 0.65rem;
+      font-weight: 600;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      padding: 0.25rem 0.75rem;
+      border-radius: 999px;
     }
 
-    .portfolio-meta {
-      color: var(--text-soft);
-      font-size: 0.78rem;
-      margin-top: 0.15rem;
-    }
-
-    /* ABOUT / METRICS */
-
-    .testimonials {
-      display: grid;
-      grid-template-columns: 1.3fr 1fr;
-      gap: 1.5rem;
-      align-items: stretch;
-    }
-
-    .quote-card {
-      background: rgba(255, 255, 255, 0.96);
-      border-radius: var(--radius-lg);
-      padding: 1.3rem 1.3rem 1.4rem;
-      box-shadow: var(--shadow-soft);
-      font-size: 0.95rem;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .quote-mark {
-      position: absolute;
-      font-size: 3.4rem;
-      opacity: 0.1;
-      top: 0.4rem;
-      right: 0.8rem;
-    }
-
-    .quote-text {
-      color: var(--text-soft);
-      margin-bottom: 0.9rem;
-    }
-
-    .quote-author {
+    /* ── SECTION LABEL ── */
+    .section-label {
+      font-size: 0.65rem;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--forest-light);
+      font-weight: 600;
+      margin-bottom: 1rem;
       display: flex;
       align-items: center;
       gap: 0.6rem;
-      font-size: 0.85rem;
+    }
+    .section-label::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--mint-border);
     }
 
-    .quote-dot {
-      width: 32px;
-      height: 32px;
-      border-radius: 999px;
-      background: radial-gradient(circle at 10% 0%, #fecaca, #bfdbfe);
-    }
-
-    .metrics-card {
-      background: rgba(255, 255, 255, 0.96);
-      border-radius: var(--radius-lg);
-      padding: 1.2rem;
-      box-shadow: var(--shadow-soft);
-      font-size: 0.85rem;
-    }
-
-    .metrics-grid {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 0.9rem;
-      margin-top: 0.6rem;
-    }
-
-    .metric {
-      padding: 0.7rem 0.8rem;
-      border-radius: 14px;
-      background: rgba(248, 250, 252, 0.9);
-    }
-
-    .metric-number {
-      font-weight: 700;
-      font-size: 1.05rem;
-    }
-
-    .metric-label {
-      font-size: 0.8rem;
-      color: var(--text-soft);
-    }
-
-    /* CONTACT */
-
-    .contact-grid {
-      display: grid;
-      grid-template-columns: 1.1fr 1fr;
-      gap: 1.75rem;
-      align-items: start;
-    }
-
-    .contact-card {
-      background: rgba(255, 255, 255, 0.96);
-      border-radius: var(--radius-lg);
-      padding: 1.4rem;
-      box-shadow: var(--shadow-soft);
-      font-size: 0.9rem;
-    }
-
-    form {
-      display: grid;
-      gap: 0.8rem;
-      margin-top: 0.5rem;
-    }
-
-    label {
-      font-size: 0.8rem;
-      font-weight: 500;
-      margin-bottom: 0.05rem;
-      display: block;
-    }
-
-    input,
-    textarea,
-    select {
-      width: 100%;
-      border-radius: 12px;
-      border: 1px solid rgba(148, 163, 184, 0.7);
-      padding: 0.55rem 0.7rem;
-      font-family: inherit;
-      font-size: 0.9rem;
-      outline: none;
-      background: rgba(255, 255, 255, 0.9);
-      transition: border-color var(--transition), box-shadow var(--transition), background var(--transition);
-    }
-
-    input:focus,
-    textarea:focus,
-    select:focus {
-      border-color: var(--secondary);
-      box-shadow: 0 0 0 1px rgba(111, 139, 255, 0.25);
-      background: #ffffff;
-    }
-
-    textarea {
-      min-height: 110px;
-      resize: vertical;
-    }
-
-    .helper-text {
-      font-size: 0.75rem;
-      color: var(--text-soft);
-      margin-top: 0.15rem;
-    }
-
-    .contact-side {
-      font-size: 0.9rem;
-      color: var(--text-soft);
-    }
-
-    .contact-pills {
+    /* ── MEDIA BOXES ── */
+    .media-grid {
       display: flex;
-      flex-wrap: wrap;
-      gap: 0.45rem;
-      margin: 0.7rem 0 0.8rem;
+      flex-direction: column;
+      gap: 1.5rem;
     }
 
-    .contact-pill {
-      padding: 0.25rem 0.65rem;
-      border-radius: var(--radius-pill);
-      font-size: 0.78rem;
-      background: rgba(255, 255, 255, 0.9);
-      border: 1px dashed rgba(148, 163, 184, 0.9);
+    .media-box {
+      border: 1.5px solid var(--mint-border);
+      border-radius: 12px;
+      overflow: hidden;
+      background: var(--cream);
     }
 
-    footer {
-      padding: 1.5rem 0 1.8rem;
-      font-size: 0.8rem;
-      color: var(--text-soft);
-    }
-
-    .footer-row {
+    .media-box-head {
+      background: var(--forest);
+      padding: 0.75rem 1.25rem;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: 1rem;
       flex-wrap: wrap;
+      gap: 0.5rem;
     }
-
-    .footer-links {
+    .media-box-head-left {
       display: flex;
-      gap: 0.75rem;
-      flex-wrap: wrap;
+      align-items: center;
+      gap: 0.6rem;
     }
-
-    .pill-soft {
-      padding: 0.2rem 0.6rem;
-      border-radius: var(--radius-pill);
-      background: rgba(255, 255, 255, 0.8);
-      font-size: 0.78rem;
-      border: 1px solid rgba(0, 0, 0, 0.03);
+    .media-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      flex-shrink: 0;
     }
+    .dot-red   { background: #e8002d; animation: blink 1.2s ease-in-out infinite; }
+    .dot-green { background: #53fc18; animation: blink 1.2s ease-in-out infinite; }
+    .dot-peach { background: var(--peach-mid); }
+    @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.2} }
 
-    /* === SPLIT SCREEN BROADCAST SECTION === */
+    .media-box-title {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.8rem;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--peach);
+    }
+    .media-box-sub {
+      font-size: 0.65rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: rgba(253,235,208,0.5);
+    }
+    .media-box-link {
+      font-size: 0.65rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--mint);
+      text-decoration: none;
+      font-weight: 500;
+    }
+    .media-box-link:hover { color: var(--mint-light); }
 
-    .broadcast-bar {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      min-height: 360px;
-      border-bottom: 3px solid #000;
-      box-shadow: 0 4px 14px rgba(0,0,0,0.15);
+    .responsive-embed {
       position: relative;
-      background: #fff;
+      padding-bottom: 56.25%;
+      height: 0;
+      overflow: hidden;
     }
-
-    .broadcast-image {
-      background-size: cover;
-      background-position: center;
-      background-repeat: no-repeat;
-      border-right: 3px solid #000;
-    }
-
-    .broadcast-content {
-      background: #ffffff;
-      padding: 2.5rem 2rem;
-      position: relative;
-      z-index: 3;
-      display: flex;
-      flex-direction: column;
-      justify-content: flex-start;
-    }
-
-    .broadcast-heading {
-      font-size: 1.7rem;
-      font-weight: 900;
-      color: #000;
-      margin-bottom: 1rem;
-      letter-spacing: 0.05em;
-    }
-
-    .broadcast-actions {
-      display: flex;
-      gap: 1rem;
-      flex-wrap: wrap;
-      margin-bottom: 1.4rem;
-    }
-
-    .broadcast-view {
-      background: #ffffff;
-      border-radius: 18px;
-      padding: 1rem;
-      border: 3px solid #000;
-      box-shadow: 0 6px 20px rgba(0,0,0,0.1);
-    }
-
-    .broadcast-title {
-      font-size: 1.2rem;
-      font-weight: 900;
-      color: #000;
-      text-align: center;
-      margin-bottom: 0.75rem;
-    }
-
-    .broadcast-iframe {
-      width: 100%;
-      height: 75vh;  /* Taller video box */
-      border: 3px solid #000;
-      border-radius: 14px;
+    .responsive-embed iframe {
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      border: 0;
+      display: block;
       background: #000;
     }
 
-    /* PRICING / RATE CARD */
-
-    .pricing-grid {
-      display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 1.25rem;
+    /* ── RADIO PLAYER BOX ── */
+    .player-box {
+      border: 1.5px solid var(--mint-border);
+      border-radius: 12px;
+      overflow: hidden;
+      background: var(--forest-deep);
     }
-
-    .pricing-card {
-      background: rgba(255, 255, 255, 0.96);
-      border-radius: var(--radius-md);
-      padding: 1.3rem;
-      box-shadow: var(--shadow-soft);
-      font-size: 0.9rem;
-      position: relative;
-      border: 1px solid rgba(148, 163, 184, 0.4);
-    }
-
-    .pricing-card h3 {
-      margin-bottom: 0.4rem;
-    }
-
-    .price-row {
+    .player-inner {
+      padding: 1.25rem 1.5rem;
       display: flex;
-      align-items: baseline;
-      gap: 0.4rem;
-      margin-bottom: 0.6rem;
+      flex-direction: column;
+      gap: 1rem;
     }
-
-    .price {
-      font-size: 1.4rem;
-      font-weight: 800;
+    .player-top-row {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      flex-wrap: nowrap;
     }
-
-    .price-note {
-      font-size: 0.8rem;
-      color: var(--text-soft);
+    .player-brand {
+      display: flex;
+      flex-direction: column;
+      gap: 0.2rem;
+      flex: 1;
+      min-width: 0;
     }
-
-    .pricing-card ul {
-      list-style: none;
-      padding-left: 0;
-      margin-top: 0.5rem;
-    }
-
-    .pricing-card li {
-      position: relative;
-      padding-left: 1rem;
-      margin-bottom: 0.3rem;
-      font-size: 0.82rem;
-      color: var(--text-soft);
-    }
-
-    .pricing-card li::before {
-      content: "•";
-      position: absolute;
-      left: 0;
-      top: 0;
-      color: var(--secondary);
-      font-weight: 900;
-    }
-
-    .pricing-featured {
-      border: 1.5px solid var(--secondary);
-      box-shadow: 0 18px 40px rgba(111, 139, 255, 0.25);
-      transform: translateY(-4px);
-    }
-
-    .pricing-featured .badge {
-      position: absolute;
-      top: 0.9rem;
-      right: 1rem;
-      font-size: 0.7rem;
-      text-transform: uppercase;
-      letter-spacing: 0.12em;
-      padding: 0.18rem 0.55rem;
-      border-radius: var(--radius-pill);
-      background: rgba(111, 139, 255, 0.1);
-      color: #3f5afc;
+    .player-brand-name {
+      font-family: 'Playfair Display', serif;
+      font-size: 1rem;
       font-weight: 700;
+      color: var(--peach);
+      letter-spacing: 0.04em;
+    }
+    .player-brand-sub {
+      font-size: 0.65rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: rgba(253,235,208,0.4);
+    }
+    .player-divider {
+      width: 1px;
+      height: 36px;
+      background: rgba(183,228,199,0.2);
+      flex-shrink: 0;
+    }
+    .play-btn {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      background: var(--forest-light);
+      border: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      transition: background 0.15s, transform 0.1s;
+    }
+    .play-btn:hover { background: var(--mint-border); transform: scale(1.05); }
+    .play-btn svg { fill: var(--peach); width: 16px; height: 16px; margin-left: 2px; }
+    .player-live {
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      font-size: 0.65rem;
+      font-weight: 600;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--mint);
+      flex-shrink: 0;
+    }
+    .player-live-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--mint);
+      animation: blink 1.2s ease-in-out infinite;
+    }
+    .player-bottom-row {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+    .player-track {
+      flex: 1;
+      min-width: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 0.15rem;
+    }
+    .player-track-label {
+      font-size: 0.6rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: rgba(183,228,199,0.4);
+    }
+    .player-track-name {
+      font-size: 0.82rem;
+      color: rgba(253,235,208,0.8);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .vol-wrap {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      flex-shrink: 0;
+    }
+    .vol-icon { color: rgba(183,228,199,0.4); font-size: 0.8rem; }
+    .vol-slider {
+      -webkit-appearance: none;
+      width: 80px;
+      height: 3px;
+      border-radius: 2px;
+      background: rgba(183,228,199,0.2);
+      outline: none;
+      cursor: pointer;
+    }
+    .vol-slider::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: var(--mint-border);
+      cursor: pointer;
+    }
+    .player-foot {
+      border-top: 1px solid rgba(183,228,199,0.1);
+      padding: 0.5rem 1.5rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+    }
+    .player-foot-txt {
+      font-size: 0.65rem;
+      color: rgba(183,228,199,0.3);
+      letter-spacing: 0.06em;
+    }
+    .player-foot-link {
+      font-size: 0.65rem;
+      color: var(--mint);
+      text-decoration: none;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
     }
 
-    /* Responsive */
-
-    @media (max-width: 900px) {
-      .broadcast-bar {
-        grid-template-columns: 1fr;
-      }
-      .broadcast-image {
-        min-height: 240px;
-        border-right: none;
-        border-bottom: 3px solid #000;
-      }
+    /* ── AFFILIATE CARDS ── */
+    .aff-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.25rem;
+      margin-bottom: 2.5rem;
+    }
+    .aff-card {
+      background: var(--cream);
+      border: 1.5px solid var(--mint-border);
+      border-radius: 12px;
+      padding: 1.5rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.85rem;
+    }
+    .aff-card-head {
+      display: flex;
+      align-items: center;
+      gap: 0.85rem;
+    }
+    .aff-icon {
+      width: 44px;
+      height: 44px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2rem;
+      flex-shrink: 0;
+    }
+    .aff-card-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--forest-deep);
+      line-height: 1.2;
+    }
+    .aff-card-cat {
+      font-size: 0.65rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--forest-light);
+      font-weight: 500;
+      margin-top: 0.15rem;
+    }
+    .aff-card-desc {
+      font-size: 0.82rem;
+      line-height: 1.7;
+      color: var(--forest-deep);
+      font-weight: 300;
+      flex: 1;
+    }
+    .aff-code-box {
+      background: var(--mint-light);
+      border: 1px solid var(--mint-border);
+      border-radius: 6px;
+      padding: 0.6rem 0.85rem;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      flex-wrap: wrap;
+    }
+    .aff-code-label {
+      font-size: 0.65rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--forest);
+      font-weight: 600;
+    }
+    .aff-code {
+      font-family: 'DM Sans', monospace;
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--forest-deep);
+      letter-spacing: 0.1em;
+      cursor: pointer;
+      padding: 0.1rem 0.5rem;
+      background: var(--peach);
+      border-radius: 4px;
+      border: 1px solid var(--mint-border);
+      transition: background 0.15s;
+    }
+    .aff-code:hover { background: var(--peach-dark); }
+    .aff-copy-hint {
+      font-size: 0.6rem;
+      color: var(--forest-light);
+      letter-spacing: 0.08em;
+    }
+    .aff-card-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+    .aff-btn {
+      display: inline-flex;
+      align-items: center;
+      background: var(--forest);
+      color: var(--peach);
+      padding: 0.5rem 0.9rem;
+      border-radius: 6px;
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-decoration: none;
+      transition: background 0.15s;
+    }
+    .aff-btn:hover { background: var(--forest-deep); }
+    .aff-btn-featured {
+      background: var(--forest-deep);
+      color: var(--peach-mid);
+    }
+    .aff-btn-featured:hover { background: var(--forest); }
+    .aff-note {
+      font-size: 0.62rem;
+      color: var(--forest-light);
+      letter-spacing: 0.05em;
+      margin-top: 0.25rem;
     }
 
-    @media (max-width: 860px) {
-      .hero-grid,
-      .cards-grid,
-      .portfolio-grid,
-      .testimonials,
-      .contact-grid,
-      .pricing-grid {
-        grid-template-columns: minmax(0, 1fr);
-      }
-
-      .hero-card {
-        order: -1;
-      }
-
-      nav ul {
-        display: none;
-      }
-
-      .nav {
-        justify-content: space-between;
-      }
+    /* ── FOOTER ── */
+    .site-footer {
+      margin-top: 3.5rem;
+      padding-top: 1.5rem;
+      border-top: 1.5px solid var(--mint-border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 0.75rem;
     }
+    .footer-copy {
+      font-size: 0.72rem;
+      color: var(--forest-light);
+      letter-spacing: 0.06em;
+    }
+    .footer-links {
+      display: flex;
+      gap: 1.5rem;
+    }
+    .footer-links a {
+      font-size: 0.72rem;
+      color: var(--forest);
+      text-decoration: none;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      font-weight: 500;
+    }
+    .footer-links a:hover { color: var(--forest-deep); }
 
+    /* ── RESPONSIVE ── */
     @media (max-width: 640px) {
-      section {
-        padding: 2.5rem 0;
-      }
-
-      .hero {
-        padding-top: 2.1rem;
-      }
-
-      .hero-actions {
-        flex-direction: column;
-        align-items: stretch;
-      }
-
-      .cards-grid,
-      .portfolio-grid {
-        grid-template-columns: minmax(0, 1fr);
-      }
-
-      .quote-card,
-      .metrics-card,
-      .contact-card {
-        border-radius: 18px;
-      }
-
-      .broadcast-content {
-        padding: 2rem 1.4rem;
-      }
-
-      .broadcast-iframe {
-        height: 45vh;
-      }
+      .bio { grid-template-columns: 1fr; gap: 1.5rem; }
+      .player-inner { gap: 0.75rem; }
+      .site-header { flex-direction: column; align-items: flex-start; gap: 0.4rem; }
     }
   </style>
 </head>
 <body>
-  <div class="page">
-    <header>
-      <div class="container nav">
-        <div class="brand">
-          <div class="brand-badge">SW</div>
-          <span>SENECA.WORK</span>
+<div class="page">
+
+  <!-- HEADER -->
+  <header class="site-header">
+    <div class="site-name">Seneca Mack</div>
+    <div class="site-tag">UGC Creator &amp; Broadcaster · seneca.work</div>
+  </header>
+
+  <!-- BIO -->
+  <section class="bio">
+    <div class="bio-left">
+      <div class="bio-initials">SM</div>
+      <div>
+        <div class="bio-name">Seneca<br>Mack</div>
+        <div class="bio-title" style="margin-top:0.4rem;">UGC Creator · Broadcaster</div>
+      </div>
+    </div>
+    <div class="bio-right">
+      <div class="bio-tagline">"A face consumers can trust. The voice that brands need."</div>
+      <p class="bio-desc">Live reviews of real products and real services from local businesses. Here to help make you money and help save a few dollars where needed.</p>
+      <div class="bio-pills">
+        <span class="pill">UGC Creation</span>
+        <span class="pill">Product Reviews</span>
+        <span class="pill">Local Business</span>
+        <span class="pill">Live Broadcasting</span>
+        <span class="pill">Lithonia, GA</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- MEDIA BOXES -->
+  <div class="section-label">Watch &amp; Listen</div>
+
+  <div class="media-grid">
+
+    <!-- UGC YOUTUBE PLAYLIST -->
+    <div class="media-box">
+      <div class="media-box-head">
+        <div class="media-box-head-left">
+          <span class="media-dot dot-red"></span>
+          <span class="media-box-title">UGC Reviews</span>
+          <span class="media-box-sub">· YouTube Playlist</span>
         </div>
-        <nav>
-          <ul>
-            <li><a href="#services">Services</a></li>
-            <li><a href="#portfolio">Portfolio</a></li>
-            <li><a href="#rates">Rates</a></li>
-            <li><a href="#about">About</a></li>
-            <li><a href="#contact">Contact</a></li>
-          </ul>
-        </nav>
-        <div class="nav-cta">
-          <a href="#rates" class="btn-outline">Download Rate Card</a>
-          <a href="#contact" class="btn">Work With Me ↗</a>
+        <a href="https://youtube.com/playlist?list=PLQ9p6GARi5fChCdbnZY2TmB-w5fA7ssb2" target="_blank" rel="noopener noreferrer" class="media-box-link">View all →</a>
+      </div>
+      <div class="responsive-embed">
+        <iframe src="https://www.youtube.com/embed/videoseries?list=PLQ9p6GARi5fChCdbnZY2TmB-w5fA7ssb2" title="Seneca Mack — UGC Product Reviews" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe>
+      </div>
+    </div>
+
+    <!-- KICK LIVE -->
+    <div class="media-box">
+      <div class="media-box-head">
+        <div class="media-box-head-left">
+          <span class="media-dot dot-green"></span>
+          <span class="media-box-title">Live on Kick</span>
+          <span class="media-box-sub">· STVNETWORK</span>
+        </div>
+        <a href="https://kick.com/STVNETWORK" target="_blank" rel="noopener noreferrer" class="media-box-link">Follow @STVNETWORK →</a>
+      </div>
+      <div class="responsive-embed">
+        <iframe src="https://player.kick.com/STVNETWORK" title="Seneca Mack Live on Kick — STVNETWORK" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+      </div>
+    </div>
+
+    <!-- STV RADIO PLAYER -->
+    <div class="player-box">
+      <div class="media-box-head" style="background:var(--forest-deep);">
+        <div class="media-box-head-left">
+          <span class="media-dot dot-peach"></span>
+          <span class="media-box-title">STV Radiomeltdown</span>
+          <span class="media-box-sub">· Live Stream</span>
+        </div>
+        <a href="https://radiomeltdown.com" target="_blank" rel="noopener noreferrer" class="media-box-link">radiomeltdown.com →</a>
+      </div>
+      <div class="player-inner">
+        <div class="player-top-row">
+          <div class="player-brand">
+            <div class="player-brand-name">STV Radiomeltdown</div>
+            <div class="player-brand-sub">Lithonia, GA · Always Live</div>
+          </div>
+          <div class="player-live">
+            <span class="player-live-dot"></span>
+            Live
+          </div>
+          <button class="play-btn" id="playBtn" onclick="togglePlay()">
+            <svg id="playIcon" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+          </button>
+        </div>
+        <div class="player-bottom-row">
+          <div class="player-track">
+            <div class="player-track-label">Now playing</div>
+            <div class="player-track-name" id="trackName">Press play to tune in</div>
+          </div>
+          <div class="vol-wrap">
+            <span class="vol-icon">&#9654;</span>
+            <input type="range" class="vol-slider" id="volSlider" min="0" max="100" value="80" step="1" oninput="setVol(this.value)">
+          </div>
         </div>
       </div>
-    </header>
-
-    <!-- SPLIT SCREEN BROADCAST SECTION -->
-    <section class="broadcast-bar">
-      <!-- LEFT SIDE IMAGE -->
-      <div class="broadcast-image"
-           style="background-image: url(https://github.com/fairefaretravels/seneca/blob/main/Whisk_66da77beb73bb2aaddc48948e22a79eadr.jpeg);">
+      <div class="player-foot">
+        <span class="player-foot-txt">Independent radio · Indie · Underground · AI Music</span>
+        <a href="https://radiomeltdown.com" target="_blank" rel="noopener noreferrer" class="player-foot-link">Visit site →</a>
       </div>
+    </div>
 
-      <!-- RIGHT SIDE CONTENT -->
-      <div class="broadcast-content">
-        <h2 class="broadcast-heading">Live Broadcast Control</h2>
-
-        <div class="broadcast-actions">
-          <a href="https://vdo.ninja/?room=seneca_work&broadcast" class="btn" style="font-weight:700;">
-            Join As A Guest ↗
-          </a>
-        </div>
-
-        <div class="broadcast-view">
-          <div class="broadcast-title">LIVE VIEW BOX</div>
-
-          <iframe
-            class="broadcast-iframe"
-            src="https://vdo.ninja/?scene=0&layout&remote&showlabels&room=seneca_work"
-            allow="camera; microphone; fullscreen; display-capture">
-          </iframe>
-        </div>
-      </div>
-    </section>
-
-    <main>
-      <!-- HERO -->
-      <section class="hero" id="top">
-        <div class="container hero-grid">
-          <div>
-            <div class="hero-tagline">
-              <span class="hero-tag-dot"></span>
-              <span>Beginner UGC • Real Reactions • No Fake Influencer Energy</span>
-            </div>
-            <h1>I create bright, relatable content your customers actually watch.</h1>
-            <p>
-              I’m a UGC creator who loves simple storytelling, honest reactions, and making products feel like they live
-              in real life — not just in an ad. If your brand is fun, human, and a little daring, we’ll get along great.
-            </p>
-
-            <div class="hero-actions">
-              <a href="#portfolio" class="btn">
-                View UGC Samples
-              </a>
-              <a href="#contact" class="btn-outline">
-                Book a Brief Call
-              </a>
-            </div>
-
-            <div class="hero-meta">
-              <div class="hero-meta-pill">UGC videos • Product demos • Hooks that stop scrolling</div>
-              <div class="hero-meta-pill">Perfect for TikTok, Reels, Shorts, Reddit ads & more</div>
-            </div>
-          </div>
-
-          <div class="hero-card">
-            <div class="hero-badge">Creator Dashboard Preview</div>
-            <div class="hero-avatar-row">
-              <div class="hero-avatar">S</div>
-              <div class="hero-avatar-text">
-                <h3>Saneca • Seneca.work</h3>
-                <span>Beginner UGC creator · 100% authentic</span>
-              </div>
-            </div>
-            <p class="quote-text" style="margin-bottom: 0.8rem;">
-              “I talk like a real customer, not a script robot. If your product solves a problem, I’ll show it like I’m
-              sending a video to a friend.”
-            </p>
-
-            <div class="hero-video-frame">
-              <div class="hero-video-inner">
-                <div class="play-circle">
-                  <div class="play-triangle"></div>
-                </div>
-                <div class="hero-video-label">Tap to view sample intro hook</div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <!-- SERVICES -->
-      <section id="services">
-        <div class="container">
-          <div class="section-header">
-            <div class="kicker">Services</div>
-            <h2>Content I can create for your next campaign</h2>
-            <p>
-              Whether you’re on Joy, Insense, Vamp, Tribe, The Right Fit, or running your own creator program, I keep
-              things simple and easy to brief.
-            </p>
-          </div>
-
-          <div class="cards-grid">
-            <div class="card">
-              <div class="card-pill">Video UGC • Short Form</div>
-              <h3>Product Hooks & Story Videos</h3>
-              <p>
-                15–60s videos made for TikTok, Reels, and Shorts: hooks, problems, transformation, and call-to-action.
-              </p>
-              <div class="tag-list">
-                <span class="tag">Face-to-camera</span>
-                <span class="tag">Storytelling</span>
-                <span class="tag">Problem → Solution</span>
-                <span class="tag">Voiceover options</span>
-              </div>
-            </div>
-
-            <div class="card">
-              <div class="card-pill">Lifestyle • POV • Demo</div>
-              <h3>Hands-on Product Demos</h3>
-              <p>
-                Clean, bright shots showing how the product works in real life. Perfect for “how it works” and “before /
-                after” creative.
-              </p>
-              <div class="tag-list">
-                <span class="tag">Unboxing</span>
-                <span class="tag">POV use</span>
-                <span class="tag">Setup / how-to</span>
-                <span class="tag">B-roll packs</span>
-              </div>
-            </div>
-
-            <div class="card">
-              <div class="card-pill">Voice • Personality</div>
-              <h3>Reactions, Testimonials & Scripts</h3>
-              <p>
-                Talking-head reviews, reactions, and testimonial-style content you can use as ads or organic posts.
-              </p>
-              <div class="tag-list">
-                <span class="tag">Testimonial style</span>
-                <span class="tag">Duet / stitch ready</span>
-                <span class="tag">Scripted or natural</span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <!-- PORTFOLIO -->
-      <section id="portfolio">
-        <div class="container">
-          <div class="section-header">
-            <div class="kicker">Portfolio</div>
-            <h2>Sample concepts & UGC styles</h2>
-            <p>
-              Below are example formats I can create. Once we work together, this grid becomes your custom brand wall —
-              using your product, your script, or my ideas.
-            </p>
-          </div>
-
-          <div class="portfolio-grid">
-            <div class="portfolio-card">
-              <div class="portfolio-thumb">
-                <div class="portfolio-pill">Hook + Problem</div>
-                <span>“POV: You’re tired of wasting money on stuff that doesn’t work…”</span>
-              </div>
-              <div class="portfolio-title">TikTok Story UGC</div>
-              <div class="portfolio-meta">15–30s vertical video • Strong hook • Saved for ads</div>
-            </div>
-
-            <div class="portfolio-card">
-              <div class="portfolio-thumb">
-                <div class="portfolio-pill">Step-by-step</div>
-                <span>“Here’s exactly how I use this every morning in under 2 minutes.”</span>
-              </div>
-              <div class="portfolio-title">How-To / Tutorial</div>
-              <div class="portfolio-meta">Close-ups, hands-on shots, clear steps</div>
-            </div>
-
-            <div class="portfolio-card">
-              <div class="portfolio-thumb">
-                <div class="portfolio-pill">Reaction / POV</div>
-                <span>“My face when I realized it actually did what it promised…”</span>
-              </div>
-              <div class="portfolio-title">Reaction Video</div>
-              <div class="portfolio-meta">Great for A/B testing thumbnails & hooks</div>
-            </div>
-
-            <div class="portfolio-card">
-              <div class="portfolio-thumb">
-                <div class="portfolio-pill">Voiceover</div>
-                <span>Visual b-roll + calm voiceover for more polished ads.</span>
-              </div>
-              <div class="portfolio-title">Aesthetic B-Roll</div>
-              <div class="portfolio-meta">Soft, bright shots for reels & paid ads</div>
-            </div>
-
-            <div class="portfolio-card">
-              <div class="portfolio-thumb">
-                <div class="portfolio-pill">Testimonial</div>
-                <span>“I didn’t expect to love it this much, but here we are…”</span>
-              </div>
-              <div class="portfolio-title">Talking Head Review</div>
-              <div class="portfolio-meta">Human, honest, beginner-friendly content</div>
-            </div>
-
-            <div class="portfolio-card">
-              <div class="portfolio-thumb">
-                <div class="portfolio-pill">Platform-ready</div>
-                <span>Safe framing for TikTok, Reels, YouTube Shorts & Reddit.</span>
-              </div>
-              <div class="portfolio-title">Multi-Platform Cut</div>
-              <div class="portfolio-meta">One video, multiple aspect ratios & hooks</div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <!-- ABOUT + METRICS -->
-      <section id="about">
-        <div class="container">
-          <div class="testimonials">
-            <div class="quote-card">
-              <div class="kicker">About</div>
-              <h2>Real person. Beginner creator. Big ideas.</h2>
-              <div class="quote-mark">“</div>
-              <p class="quote-text">
-                I’m just getting started in UGC — which means I’m hungry, flexible, and not stuck in one “influencer”
-                style. My background spans customer service, broadcast setups, and community work, so I understand people
-                as much as I understand content.
-              </p>
-              <p class="quote-text">
-                If you’re looking for a creator who can follow a brief, bring their own ideas, and keep things fun but
-                respectful, that’s me.
-              </p>
-              <div class="quote-author">
-                <div class="quote-dot"></div>
-                <div>
-                  <div style="font-weight:600;">Saneca – Seneca.work</div>
-                  <div style="font-size:0.8rem; color:var(--text-soft);">
-                    UGC Creator • Beginner with pro energy
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div class="metrics-card">
-              <div class="kicker">For brands</div>
-              <h3>What you can expect working with me</h3>
-              <div class="metrics-grid">
-                <div class="metric">
-                  <div class="metric-number">24–72h</div>
-                  <div class="metric-label">Typical draft turn-around time*</div>
-                </div>
-                <div class="metric">
-                  <div class="metric-number">2</div>
-                  <div class="metric-label">Rounds of light revisions included</div>
-                </div>
-                <div class="metric">
-                  <div class="metric-number">UGC-ready</div>
-                  <div class="metric-label">Vertical, clean framing, simple edits</div>
-                </div>
-                <div class="metric">
-                  <div class="metric-number">Beginner</div>
-                  <div class="metric-label">Honest, non-influencer vibe (on purpose)</div>
-                </div>
-              </div>
-              <p style="margin-top:0.75rem; font-size:0.78rem; color:var(--text-soft);">
-                *Turn-around may vary based on script length, number of concepts, and shipping times for physical
-                products.
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <!-- RATE CARD -->
-      <section id="rates">
-        <div class="container">
-          <div class="section-header">
-            <div class="kicker">Rates</div>
-            <h2>Simple, beginner-friendly pricing</h2>
-            <p>
-              These are starting points for typical UGC packages. Final pricing depends on usage, volume, and timelines,
-              but this gives you a clear idea before we talk.
-            </p>
-          </div>
-
-          <div class="pricing-grid">
-            <div class="pricing-card">
-              <h3>Single UGC Video</h3>
-              <div class="price-row">
-                <span class="price">$XXX</span>
-                <span class="price-note">per video</span>
-              </div>
-              <ul>
-                <li>15–30 second vertical video</li>
-                <li>Simple hook → problem → solution</li>
-                <li>1 round of light revisions</li>
-                <li>Delivered ready for TikTok / Reels / Shorts</li>
-              </ul>
-            </div>
-
-            <div class="pricing-card pricing-featured">
-              <div class="badge">Most popular</div>
-              <h3>3-Video Package</h3>
-              <div class="price-row">
-                <span class="price">$XXX</span>
-                <span class="price-note">for 3 videos</span>
-              </div>
-              <ul>
-                <li>3 custom UGC concepts (hooks, POV, or testimonials)</li>
-                <li>Mix of talking-head + b-roll possible</li>
-                <li>2 rounds of light revisions</li>
-                <li>Great for testing multiple hooks & angles</li>
-              </ul>
-            </div>
-
-            <div class="pricing-card">
-              <h3>UGC + Raw B-Roll</h3>
-              <div class="price-row">
-                <span class="price">$XXX</span>
-                <span class="price-note">bundle</span>
-              </div>
-              <ul>
-                <li>1–2 finished UGC videos</li>
-                <li>Extra raw b-roll clips for your editor</li>
-                <li>Clear labeling of clips and takes</li>
-                <li>Perfect for brands with in-house editing</li>
-              </ul>
-            </div>
-          </div>
-
-          <p style="text-align:center; font-size:0.8rem; color:#555; margin-top:1.2rem;">
-            *All pricing is flexible based on brief, licensing, and timeline. Use the form below to tell me what you
-            need and I’ll send a custom quote and a downloadable PDF rate card.
-          </p>
-        </div>
-      </section>
-
-      <!-- CONTACT -->
-      <section id="contact">
-        <div class="container">
-          <div class="section-header">
-            <div class="kicker">Contact</div>
-            <h2>Tell me about your next campaign</h2>
-            <p>
-              Use this form like you would on Joy, Insense, Vamp, Tribe, or any UGC platform — quick, clear, and easy.
-              I’ll reply with ideas and a simple rate card.
-            </p>
-          </div>
-
-          <div class="contact-grid">
-            <div class="contact-card">
-              <form>
-                <div>
-                  <label for="name">Your name</label>
-                  <input id="name" type="text" placeholder="Brand rep, founder, or agency contact" />
-                </div>
-
-                <div>
-                  <label for="brand">Brand / Company</label>
-                  <input id="brand" type="text" placeholder="Brand name" />
-                </div>
-
-                <div>
-                  <label for="email">Email</label>
-                  <input id="email" type="email" placeholder="you@example.com" />
-                  <div class="helper-text">So I can send concepts, rates, and timelines.</div>
-                </div>
-
-                <div>
-                  <label for="platform">Where did you find me?</label>
-                  <select id="platform">
-                    <option>Choose one</option>
-                    <option>Joy</option>
-                    <option>Insense</option>
-                    <option>Vamp</option>
-                    <option>Tribe</option>
-                    <option>The Right Fit</option>
-                    <option>Reddit</option>
-                    <option>Twitter / X</option>
-                    <option>TikTok</option>
-                    <option>Instagram</option>
-                    <option>Other</option>
-                  </select>
-                </div>
-
-                <div>
-                  <label for="content-type">What type of content do you need?</label>
-                  <textarea id="content-type" placeholder="Example: 3 TikTok-style UGC videos + 1 unboxing + raw b-roll"></textarea>
-                </div>
-
-                <div>
-                  <label for="notes">Link any moodboard, website, or extra notes</label>
-                  <textarea id="notes" placeholder="Paste any live ads, product pages, or inspo here."></textarea>
-                </div>
-
-                <div>
-                  <button type="submit" class="btn">Submit Brief</button>
-                </div>
-              </form>
-            </div>
-
-            <div class="contact-side">
-              <h3>Make it easy, make it clear.</h3>
-              <p>
-                Brands are busy. I keep my process simple so you can quickly decide if I’m a fit:
-              </p>
-
-              <div class="contact-pills">
-                <div class="contact-pill">1. You send a short brief</div>
-                <div class="contact-pill">2. I reply with ideas & rates</div>
-                <div class="contact-pill">3. We confirm deliverables</div>
-                <div class="contact-pill">4. I film, edit & deliver files</div>
-              </div>
-
-              <p>
-                If you’d rather talk it out, just ask for a quick video or audio call in your message —
-                I’m happy to brainstorm live.
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
-    </main>
-
-    <footer>
-      <div class="container footer-row">
-        <div>© <span id="year"></span> Seneca.work • UGC by Saneca</div>
-        <div class="footer-links">
-          <span class="pill-soft">Available for: UGC • Product demos • Testimonials</span>
-          <span class="pill-soft">Based in US • Open to remote collabs</span>
-        </div>
-      </div>
-    </footer>
   </div>
 
-  <script>
-    // Set current year
-    document.getElementById("year").textContent = new Date().getFullYear();
-  </script>
+  <!-- AFFILIATE & REFERRAL CARDS -->
+  <div class="page" style="padding-top:0;">
+
+    <div class="section-label" style="margin-top:2rem;">Deals &amp; Referrals</div>
+    <p style="font-size:0.85rem;color:var(--forest);line-height:1.7;margin-bottom:1.5rem;font-weight:300;">Real deals I actually use. Save money, earn cash, travel smarter.</p>
+
+    <div class="aff-grid">
+
+      <!-- FAIR FARE TRAVELS -->
+      <div class="aff-card">
+        <div class="aff-card-head">
+          <div class="aff-icon" style="background:var(--forest);">✈</div>
+          <div>
+            <div class="aff-card-title">Fair Fare Travels</div>
+            <div class="aff-card-cat">Luxury Travel · Affiliate</div>
+          </div>
+        </div>
+        <p class="aff-card-desc">Luxury travel bookings at your fingertips. Flights, hotels, all-inclusive packages and getaway deals through Expedia, Hotels.com and Vrbo.</p>
+        <div class="aff-card-links">
+          <a href="https://expedia.com/affiliates/fair_fare_travels" target="_blank" rel="noopener noreferrer" class="aff-btn">Book Flights</a>
+          <a href="https://www.hotels.com/affiliates/fair_fare_travels" target="_blank" rel="noopener noreferrer" class="aff-btn">Book Hotels</a>
+          <a href="https://vrbo.com/affiliates/fair_fare_travels" target="_blank" rel="noopener noreferrer" class="aff-btn">All-Inclusive</a>
+          <a href="https://expedia.com/affiliate/aFQAmqn" target="_blank" rel="noopener noreferrer" class="aff-btn aff-btn-featured">July 4th Deals 🔥</a>
+        </div>
+        <div class="aff-note">Affiliate commissions may apply</div>
+      </div>
+
+      <!-- US MOBILE -->
+      <div class="aff-card">
+        <div class="aff-card-head">
+          <div class="aff-icon" style="background:#1a3c6e;">📱</div>
+          <div>
+            <div class="aff-card-title">US Mobile</div>
+            <div class="aff-card-cat">America's Super Carrier · $25 Bonus</div>
+          </div>
+        </div>
+        <p class="aff-card-desc">Get $25 to join America's Super Carrier, plus 30 days free when you transfer your number. Use my discount code at signup.</p>
+        <div class="aff-code-box">
+          <span class="aff-code-label">Discount Code</span>
+          <span class="aff-code" onclick="copyCode('D7ACF68D', this)">D7ACF68D</span>
+          <span class="aff-copy-hint">tap to copy</span>
+        </div>
+        <div class="aff-card-links">
+          <a href="https://linktr.ee/sanecatv" target="_blank" rel="noopener noreferrer" class="aff-btn aff-btn-featured">Get the Deal →</a>
+        </div>
+        <div class="aff-note">Transfer your number for 30 days free</div>
+      </div>
+
+      <!-- CHIME -->
+      <div class="aff-card">
+        <div class="aff-card-head">
+          <div class="aff-icon" style="background:#1ec677;">💰</div>
+          <div>
+            <div class="aff-card-title">Chime</div>
+            <div class="aff-card-cat">Banking · $100 Bonus</div>
+          </div>
+        </div>
+        <p class="aff-card-desc">Join me on Chime and get $100 when you sign up using my referral link. No monthly fees, no minimum balance, real banking made simple.</p>
+        <div class="aff-card-links">
+          <a href="https://www.chime.com/r/sanecamack5/?c=s" target="_blank" rel="noopener noreferrer" class="aff-btn aff-btn-featured">Get $100 on Chime →</a>
+        </div>
+        <div class="aff-note">Terms apply · Must qualify for bonus</div>
+      </div>
+
+      <!-- LINKTREE -->
+      <div class="aff-card">
+        <div class="aff-card-head">
+          <div class="aff-icon" style="background:#39e09b;">🔗</div>
+          <div>
+            <div class="aff-card-title">All My Links</div>
+            <div class="aff-card-cat">Linktree · @sanecatv</div>
+          </div>
+        </div>
+        <p class="aff-card-desc">Every link in one place — STV Radiomeltdown, UGC reviews, social channels, deals, and more. Follow along and stay connected.</p>
+        <div class="aff-card-links">
+          <a href="https://linktr.ee/sanecatv" target="_blank" rel="noopener noreferrer" class="aff-btn aff-btn-featured">linktr.ee/sanecatv →</a>
+        </div>
+        <div class="aff-note">Updated regularly</div>
+      </div>
+
+      <!-- KLEEN SPACE -->
+      <div class="aff-card">
+        <div class="aff-card-head">
+          <div class="aff-icon" style="background:#2c3e50;">🧹</div>
+          <div>
+            <div class="aff-card-title">Kleen Space</div>
+            <div class="aff-card-cat">Clean-Out Services · Home &amp; Commercial</div>
+          </div>
+        </div>
+        <p class="aff-card-desc">Reclaim your space. Reclaim your peace. Full-service clean-outs for homes, real estate, and commercial properties — transforming cluttered spaces into clean, market-ready environments faster.</p>
+        <div style="display:flex;flex-direction:column;gap:0.35rem;margin:0.25rem 0;">
+          <div style="display:flex;align-items:flex-start;gap:0.5rem;font-size:0.78rem;color:var(--forest-deep);font-weight:300;">
+            <span style="color:var(--forest-light);font-weight:600;flex-shrink:0;">✓</span>Home clean-outs &amp; deep cleaning
+          </div>
+          <div style="display:flex;align-items:flex-start;gap:0.5rem;font-size:0.78rem;color:var(--forest-deep);font-weight:300;">
+            <span style="color:var(--forest-light);font-weight:600;flex-shrink:0;">✓</span>Real estate staging &amp; junk removal
+          </div>
+          <div style="display:flex;align-items:flex-start;gap:0.5rem;font-size:0.78rem;color:var(--forest-deep);font-weight:300;">
+            <span style="color:var(--forest-light);font-weight:600;flex-shrink:0;">✓</span>Commercial &amp; office clean-outs
+          </div>
+          <div style="display:flex;align-items:flex-start;gap:0.5rem;font-size:0.78rem;color:var(--forest-deep);font-weight:300;">
+            <span style="color:var(--forest-light);font-weight:600;flex-shrink:0;">✓</span>Space optimization for buyers &amp; renters
+          </div>
+        </div>
+        <div class="aff-card-links">
+          <a href="mailto:press@radiomeltdown.com?subject=Kleen Space Inquiry" class="aff-btn aff-btn-featured">Book Kleen Space →</a>
+        </div>
+        <div class="aff-note">Your time is money — let us handle the rest</div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer class="site-footer">
+    <span class="footer-copy">© 2026 Seneca Mack · Saneca TV LLC · Lithonia, GA</span>
+    <div class="footer-links">
+      <a href="mailto:press@radiomeltdown.com">press@radiomeltdown.com</a>
+      <a href="https://radiomeltdown.com" target="_blank" rel="noopener noreferrer">STV Radiomeltdown</a>
+    </div>
+  </footer>
+
+</div>
+
+<audio id="stream" src="https://listen.streamaudio.co/proxy/stvradio/stream" preload="none"></audio>
+
+<script>
+let playing = false;
+const audio = document.getElementById('stream');
+const btn   = document.getElementById('playBtn');
+const icon  = document.getElementById('playIcon');
+const track = document.getElementById('trackName');
+
+function togglePlay(){
+  playing = !playing;
+  if(playing){
+    audio.play();
+    icon.innerHTML = '<path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/>';
+    track.textContent = 'STV Radiomeltdown — Live Stream';
+  } else {
+    audio.pause();
+    icon.innerHTML = '<path d="M8 5v14l11-7z"/>';
+    track.textContent = 'Press play to tune in';
+  }
+}
+
+function setVol(v){
+  audio.volume = v / 100;
+}
+
+function copyCode(code, el){
+  navigator.clipboard.writeText(code).then(()=>{
+    const orig = el.textContent;
+    el.textContent = 'Copied!';
+    setTimeout(()=>{ el.textContent = orig; }, 1500);
+  });
+}
+</script>
 </body>
 </html>
