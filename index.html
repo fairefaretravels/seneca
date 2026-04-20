@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8"/>
@@ -614,9 +614,25 @@
         </div>
         <a href="https://kick.com/STVNETWORK" target="_blank" rel="noopener noreferrer" class="media-box-link">Follow @STVNETWORK →</a>
       </div>
-      <div class="responsive-embed">
-        <iframe src="https://player.kick.com/STVNETWORK" title="Seneca Mack Live on Kick — STVNETWORK" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+
+      <!-- Placeholder — shown by default, no broken embed -->
+      <div id="senecaKickPlaceholder" style="background:linear-gradient(160deg,#1B4332,#2D6A4F);padding:2.5rem 1.5rem;text-align:center;display:flex;flex-direction:column;align-items:center;gap:1.25rem;">
+        <div style="width:60px;height:60px;border-radius:50%;background:rgba(183,228,199,0.12);border:2px solid rgba(183,228,199,0.3);display:flex;align-items:center;justify-content:center;">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="#B7E4C7"><path d="M8 5v14l11-7z"/></svg>
+        </div>
+        <div>
+          <div style="font-family:'Playfair Display',serif;font-size:1.2rem;font-weight:700;color:var(--peach);line-height:1;">STVNETWORK</div>
+          <div style="font-size:0.7rem;color:rgba(253,235,208,0.4);letter-spacing:0.12em;text-transform:uppercase;margin-top:0.35rem;">Live on Kick when broadcasting</div>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:0.6rem;width:100%;max-width:240px;">
+          <button onclick="loadSenecaKick()" style="background:var(--mint-border);color:var(--forest-deep);border:none;padding:0.8rem 1.5rem;font-size:0.75rem;font-weight:700;letter-spacing:0.15em;text-transform:uppercase;border-radius:6px;cursor:pointer;width:100%;">▶ Watch Live Stream</button>
+          <a href="https://kick.com/STVNETWORK" target="_blank" rel="noopener noreferrer" style="background:transparent;color:var(--mint);border:1px solid rgba(183,228,199,0.3);padding:0.65rem 1.5rem;font-size:0.7rem;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;border-radius:6px;text-decoration:none;width:100%;text-align:center;">Open on Kick.com →</a>
+        </div>
+        <div style="font-size:0.62rem;color:rgba(183,228,199,0.25);letter-spacing:0.06em;">Loads when you go live · Powered by Kick</div>
       </div>
+
+      <!-- Embed injected on click -->
+      <div id="senecaKickEmbed" style="display:none;" class="responsive-embed"></div>
     </div>
 
     <!-- STV RADIO PLAYER -->
@@ -818,6 +834,13 @@ function copyCode(code, el){
     el.textContent = 'Copied!';
     setTimeout(()=>{ el.textContent = orig; }, 1500);
   });
+}
+
+function loadSenecaKick(){
+  document.getElementById('senecaKickPlaceholder').style.display = 'none';
+  const embed = document.getElementById('senecaKickEmbed');
+  embed.innerHTML = '<iframe src="https://player.kick.com/STVNETWORK" title="Seneca Mack Live on Kick" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen style="position:absolute;top:0;left:0;width:100%;height:100%;border:0;"></iframe>';
+  embed.style.display = 'block';
 }
 </script>
 </body>
