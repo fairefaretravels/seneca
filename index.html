@@ -318,12 +318,25 @@
       flex-shrink: 0;
     }
     .player-live-dot {
-      width: 7px;
-      height: 7px;
+      width: 10px;
+      height: 10px;
       border-radius: 50%;
-      background: var(--mint);
-      animation: blink 1.2s ease-in-out infinite;
+      background: #888;
+      display: inline-block;
+      margin-right: 6px;
+      animation: pulse 1.5s infinite;
     }
+    
+    @keyframes pulse {
+      0% { opacity: 0.4; transform: scale(1); }
+      50% { opacity: 1; transform: scale(1.2); }
+      100% { opacity: 0.4; transform: scale(1); }
+    }
+    .play-btn {
+     cursor: pointer;
+     font-size: 18px;
+     padding: 10px 14px;
+    } 
     .player-bottom-row {
       display: flex;
       align-items: center;
@@ -635,48 +648,65 @@
       <div id="senecaKickEmbed" style="display:none;" class="responsive-embed"></div>
     </div>
 
-    <!-- STV RADIO PLAYER -->
-    <div class="player-box">
-      <div class="media-box-head" style="background:var(--forest-deep);">
-        <div class="media-box-head-left">
-          <span class="media-dot dot-peach"></span>
-          <span class="media-box-title">STV Radiomeltdown</span>
-          <span class="media-box-sub">· Live Stream</span>
-        </div>
-        <a href="https://listen.streamaudio.co/proxy/sanecatv/stream" target="_blank" rel="noopener noreferrer" class="media-box-link">https://listen.streamaudio.co/proxy/sanecatv/stream →</a>
+   <!-- STV RADIO ENGINE -->
+<div class="player-box">
+
+  <audio
+    id="radioStream"
+    preload="none"
+    crossorigin="anonymous"
+  >
+    <source src="https://listen.streamaudio.co/proxy/stvradio/stream" type="audio/mpeg">
+  </audio>
+
+  <div class="media-box-head" style="background:var(--forest-deep);">
+    <div class="media-box-head-left">
+      <span class="media-dot dot-peach"></span>
+      <span class="media-box-title">STV Radiomeltdown</span>
+      <span class="media-box-sub">· Live Stream</span>
+    </div>
+    <span class="media-box-link">LIVE BROADCAST NODE</span>
+  </div>
+
+  <div class="player-inner">
+
+    <div class="player-top-row">
+      <div class="player-brand">
+        <div class="player-brand-name">STV Radiomeltdown</div>
+        <div class="player-brand-sub">Lithonia, GA · Broadcast Active</div>
       </div>
-      <div class="player-inner">
-        <div class="player-top-row">
-          <div class="player-brand">
-            <div class="player-brand-name">STV Radiomeltdown</div>
-            <div class="player-brand-sub">Lithonia, GA · Always Live</div>
-          </div>
-          <div class="player-live">
-            <span class="player-live-dot"></span>
-            Live
-          </div>
-          <button class="play-btn" id="playBtn" onclick="togglePlay()">
-            <svg id="playIcon" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
-          </button>
-        </div>
-        <div class="player-bottom-row">
-          <div class="player-track">
-            <div class="player-track-label">Now playing</div>
-            <div class="player-track-name" id="trackName">Press play to tune in</div>
-          </div>
-          <div class="vol-wrap">
-            <span class="vol-icon">&#9654;</span>
-            <input type="range" class="vol-slider" id="volSlider" min="0" max="100" value="80" step="1" oninput="setVol(this.value)">
-          </div>
-        </div>
+
+      <div class="player-live">
+        <span id="liveDot" class="player-live-dot"></span>
+        <span id="liveStatus">Standby</span>
       </div>
-      <div class="player-foot">
-        <span class="player-foot-txt">Independent radio · Indie · Underground · AI Music</span>
-        <a href="https://radiomeltdown.com" target="_blank" rel="noopener noreferrer" class="player-foot-link">Visit site →</a>
+
+      <button class="play-btn" id="playBtn">
+        ▶
+      </button>
+    </div>
+
+    <div class="player-bottom-row">
+      <div class="player-track">
+        <div class="player-track-label">Stream Status</div>
+        <div class="player-track-name" id="trackName">Idle</div>
+      </div>
+
+      <div class="vol-wrap">
+        <span>🔊</span>
+        <input type="range" id="volSlider" min="0" max="100" value="80">
       </div>
     </div>
 
   </div>
+
+  <div class="player-foot">
+    <span>Independent broadcast · Music · Culture · Live radio</span>
+    <a href="https://radiomeltdown.com" target="_blank">Open Network →</a>
+  </div>
+
+</div>
+
 
   <!-- AFFILIATE & REFERRAL CARDS -->
   <div class="page" style="padding-top:0;">
@@ -827,43 +857,84 @@
 <audio id="stream" src="https://listen.streamaudio.co/proxy/stvradio/stream" preload="none"></audio>
 
 <script>
-let playing = false;
-const audio = document.getElementById('stream');
-const btn   = document.getElementById('playBtn');
-const icon  = document.getElementById('playIcon');
-const track = document.getElementById('trackName');
+const stream = document.getElementById("radioStream");
+const playBtn = document.getElementById("playBtn");
+const volSlider = document.getElementById("volSlider");
 
-function togglePlay(){
-  playing = !playing;
-  if(playing){
-    audio.play();
-    icon.innerHTML = '<path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/>';
-    track.textContent = 'STV Radiomeltdown — Live Stream';
+const trackName = document.getElementById("trackName");
+const liveStatus = document.getElementById("liveStatus");
+const liveDot = document.getElementById("liveDot");
+
+let isPlaying = false;
+let retryCount = 0;
+const maxRetries = 3;
+
+// INIT VOLUME
+stream.volume = volSlider.value / 100;
+
+// PLAY / PAUSE
+playBtn.addEventListener("click", async () => {
+  try {
+    if (!isPlaying) {
+      await stream.play();
+      isPlaying = true;
+      setLiveState(true);
+      trackName.innerText = "Live stream active";
+    } else {
+      stream.pause();
+      isPlaying = false;
+      setLiveState(false);
+      trackName.innerText = "Stream paused";
+    }
+  } catch (err) {
+    console.error("Stream error:", err);
+    handleStreamError();
+  }
+});
+
+// VOLUME CONTROL
+volSlider.addEventListener("input", (e) => {
+  stream.volume = e.target.value / 100;
+});
+
+// LIVE STATE UI
+function setLiveState(state) {
+  if (state) {
+    liveStatus.innerText = "LIVE";
+    liveDot.style.background = "#00ff88";
   } else {
-    audio.pause();
-    icon.innerHTML = '<path d="M8 5v14l11-7z"/>';
-    track.textContent = 'Press play to tune in';
+    liveStatus.innerText = "OFFLINE";
+    liveDot.style.background = "#888";
   }
 }
 
-function setVol(v){
-  audio.volume = v / 100;
+// ERROR HANDLING + RETRY
+function handleStreamError() {
+  setLiveState(false);
+  trackName.innerText = "Reconnecting stream...";
+
+  if (retryCount < maxRetries) {
+    retryCount++;
+    setTimeout(() => {
+      stream.load();
+      stream.play().catch(() => handleStreamError());
+    }, 3000);
+  } else {
+    trackName.innerText = "Stream unavailable";
+  }
 }
 
-function copyCode(code, el){
-  navigator.clipboard.writeText(code).then(()=>{
-    const orig = el.textContent;
-    el.textContent = 'Copied!';
-    setTimeout(()=>{ el.textContent = orig; }, 1500);
-  });
-}
+// STREAM EVENT LISTENERS
+stream.addEventListener("playing", () => {
+  retryCount = 0;
+  setLiveState(true);
+});
 
-function loadSenecaKick(){
-  document.getElementById('senecaKickPlaceholder').style.display = 'none';
-  const embed = document.getElementById('senecaKickEmbed');
-  embed.innerHTML = '<iframe src="https://player.kick.com/STVNETWORK" title="Seneca Mack Live on Kick" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen style="position:absolute;top:0;left:0;width:100%;height:100%;border:0;"></iframe>';
-  embed.style.display = 'block';
-}
+stream.addEventListener("waiting", () => {
+  trackName.innerText = "Buffering...";
+});
+
+stream.addEventListener("error", handleStreamError);
 </script>
 </body>
 </html>
