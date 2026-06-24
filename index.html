@@ -4,7 +4,9 @@
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <meta name="description" content="Seneca Mack — UGC Creator & Broadcaster. Live reviews of real products and real services. A face consumers can trust. The voice that brands need."/>
-  <title>Seneca Mack · UGC Creator & Broadcaster</title>
+  <title>
+Seneca Mack | UGC Creator, Product Reviewer & STV Radiomeltdown Broadcaster
+</title>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
   <style>
     :root {
@@ -917,7 +919,9 @@ function handleStreamError() {
     retryCount++;
     setTimeout(() => {
       stream.load();
-      stream.play().catch(() => handleStreamError());
+      stream.play().catch(err => {
+  console.error(err);
+});
     }, 3000);
   } else {
     trackName.innerText = "Stream unavailable";
